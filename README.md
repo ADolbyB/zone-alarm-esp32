@@ -1,4 +1,5 @@
 # esp32-zone-alarm
+
 An ESP32 based single zone alarm system using Arduino framework.
 
 This is a project for FAU Embedded Systems CDA4630 class. This project uses an ESP32 Thing Plus C
