@@ -1,4 +1,4 @@
-# esp32-zone-alarm
+# Zone-Alarm-ESP32
 
 An ESP32 based single zone alarm system using Arduino framework.
 
