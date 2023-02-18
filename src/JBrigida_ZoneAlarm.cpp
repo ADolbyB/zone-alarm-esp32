@@ -8,19 +8,19 @@
 
 /** Directives for <FastLED.h> */
 
-#define LED_PIN 2                   				      // Pin 2 on Thing Plus C is connected to WS2812 LED
-#define COLOR_ORDER GRB                 			    // RGB LED in top right corner
+#define LED_PIN 2                                 // Pin 2 on Thing Plus C is connected to WS2812 LED
+#define COLOR_ORDER GRB                           // RGB LED in top right corner
 #define CHIPSET WS2812
 #define NUM_LEDS 1
 #define BRIGHTNESS 25
 
 /** GPIO Pin Assignments */
 
-const short servoPin = 4;                    	    // Servo set up on GPIO_4
-const short PIR = 39;                   	        // Digital Input for PIR sensor: GPIO_39
-const short micSense = 34;								        // audio sensor = GPIO_34 (A2)
+const short servoPin = 4;                         // Servo set up on GPIO_4
+const short PIR = 39;                             // Digital Input for PIR sensor: GPIO_39
+const short micSense = 34;                        // audio sensor = GPIO_34 (A2)
 const short buzzer = 13;                          // Buzzer for alarm = GPIO_13 (On-Board LED)
-CRGB leds[NUM_LEDS];                    			    // Array for LEDS on GPIO_2
+CRGB leds[NUM_LEDS];                              // Array for LEDS on GPIO_2
 
 /** Global Variable Declarations */
 
@@ -28,7 +28,7 @@ int pos = 0;                                      // variable to store the servo
 char myKeyPress = 0;                              // Sets a char as current user keypress
 int digPIR = 0;                                   // PIR Sensor: 1 = motion detected, 0 = no motion
 char* password = (char*)"789C";                   // declare pointer to char array and add password to array
-unsigned short position = 0;							        // number of correct password keys entered
+unsigned short position = 0;                      // number of correct password keys entered
 short armed = 0;                                  // armed status: 0 = disarmed, 1 = armed
 int the_alarm = 0;                                // alarm trip: 0 = no trip, 1 = motion, 2 = noise
 unsigned noise = 0;                               // average noise reading of the room
@@ -40,11 +40,11 @@ const byte ROWS = 4;                              // set global constant as # of
 const byte COLS = 4;                              // set global constant as # of columns to the keypad
 byte colPins[COLS] = {33, 15, 32, 14};            // declare pins of keypad as byte arrays
 byte rowPins[ROWS] = {26, 25, 12, 27};
-const char buttons[ROWS][COLS] = {					      // declare keypad button as 2-D array
-	{'1', '2', '3', 'A'},
+const char buttons[ROWS][COLS] = {                // declare keypad button as 2-D array
+  {'1', '2', '3', 'A'},
   {'4', '5', '6', 'B'},
   {'7', '8', '9', 'C'},
-	{'*', '0', '#', 'D'}
+  {'*', '0', '#', 'D'}
 };
 
 /** Global Semaphore Variables */
@@ -58,7 +58,7 @@ unsigned short accessAlarmLCD = 1;
 
 LiquidCrystal_I2C lcd(0x27, 20, 4);               // declare lcd object: (ADDRESS, #CHARS, #LINES)
 Keypad the_keypad = Keypad(makeKeymap(buttons), rowPins, colPins, ROWS, COLS);
-Servo servo_obj;  										            // create servo object to control a servo
+Servo servo_obj;                                  // create servo object to control a servo
 TaskHandle_t Task0;                               // Task0 runs on core 0
 TaskHandle_t Task1;                               // Task1 runs on core 1
 
@@ -86,7 +86,7 @@ void setup()
   //delay(100);
   //rtc.writeSQW(0);                              // Turn off square wave output
 	
-  pinMode(PIR, INPUT);              				      // GPIO_39 (Pin A3) Set as input for the PIR sensor
+  pinMode(PIR, INPUT);                            // GPIO_39 (Pin A3) Set as input for the PIR sensor
   pinMode(buzzer, OUTPUT);                        // GPIO_36 (Pin A4) Set as output for the alarm buzzer
   delay(30);
   digitalWrite(buzzer, HIGH);                     // TEST buzzer at power on during splash screen
@@ -94,24 +94,24 @@ void setup()
 	FastLED.addLeds <CHIPSET, LED_PIN, COLOR_ORDER> (leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(BRIGHTNESS);
 	
-  leds[0] = CRGB::White;                   		    // Power up all Pin 2 LEDs for Power On Test
+  leds[0] = CRGB::White;                          // Power up all Pin 2 LEDs for Power On Test
   FastLED.show();
   I2C_20x4LCD_set();                              // Display Splash Screen on Power Up
-	delay(2000);											              // 2 second power on delay
+	delay(2000);                                    // 2 second power on delay
   digitalWrite(buzzer, LOW);                      // Turn off buzzer / LED (Active High)
   lcd.clear();                                    // clear LCD Display
 
-	leds[0] = CRGB::Black;                   		    // Turn Off Pin 2 LEDs
+	leds[0] = CRGB::Black;                          // Turn Off Pin 2 LEDs
   FastLED.show();
   
-	ESP32PWM::allocateTimer(0);						          // Allow allocation of all timers (for servo)
+	ESP32PWM::allocateTimer(0);                     // Allow allocation of all timers (for servo)
 	ESP32PWM::allocateTimer(1);
 	ESP32PWM::allocateTimer(2);
 	ESP32PWM::allocateTimer(3);
 	servo_obj.setPeriodHertz(50);                   // standard 50 hz servo
-	servo_obj.attach(servoPin, 1000, 2000);  		    // attaches the servo on pin 4 to the servo object
+	servo_obj.attach(servoPin, 1000, 2000);         // attaches the servo on pin 4 to the servo object
 
-	setLocked(true);										            // Lock Door Servo after power on
+	setLocked(true);                                // Lock Door Servo after power on
 	armed = 1;                                      // set armed state
 
 
@@ -208,19 +208,19 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
   {
     myKeyPress = the_keypad.getKey();             // retrieve key pressed by user
 
-  	if (myKeyPress == '*')								        // only keypress we care about in disarmed state is '*'
-  	{															                // If the lock is open it can be relocked anytime with a '*' press
- 		  if (!armed)         								        // only beep when locking from unlocked state
+  	if (myKeyPress == '*')                        // only keypress we care about in disarmed state is '*'
+  	{                                             // If the lock is open it can be relocked anytime with a '*' press
+ 		  if (!armed)                                 // only beep when locking from unlocked state
     	{
         leds[0] = CRGB::Red;
         FastLED.show();
-        delay(100);               			          // length of beep = 100 mS
+        delay(100);                               // length of beep = 100 mS
         leds[0] = CRGB::Black;
         FastLED.show();
         delay(200);
         setLocked(true);                          // move servo to 0 = LOCKED
     	}
-      position = 0;                     	        // reset password counter
+      position = 0;                               // reset password counter
       semArmed = 0;                               // DISABLE Core 0 access to "armed"
       armed = 1;                                  // set armed state
       accessArmLCD = 1;                           // allow an LCD write event for "armed" status
@@ -229,43 +229,43 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
 
     if (armed)
 	  {
-      digPIR = digitalRead(PIR);            		  // read value for PIR sensor = GPIO_39
+      digPIR = digitalRead(PIR);                  // read value for PIR sensor = GPIO_39
 
-      if (digPIR)                            	    // if digPIR == 1 then there is motion
+      if (digPIR)                                 // if digPIR == 1 then there is motion
       {
         semAlarm = 0;                             // DISABLE Core 0 access to "the_alarm" variable
         the_alarm = 1;                            // Set alarm trip for LCD Screen: 1 = PIR trip for LCD
         accessAlarmLCD = 1;                       // allow an LCD write event for "alarm" status
         digitalWrite(buzzer, HIGH);               // Turn on the buzzer (or LED)
-        leds[0] = CRGB::Red;             		      // Red = Alarm
+        leds[0] = CRGB::Red;                      // Red = Alarm
         FastLED.show();
         semAlarm = 1;                             // ENABLE Core 0 access to "the_alarm"
       }
 
       for (int i = 0; i < 5; i++)
       {
-        noiseTotal += analogRead(micSense);  	    // add up 5 total readings
-        delay(20);                         		    // delay 20 mSec
+        noiseTotal += analogRead(micSense);       // add up 5 total readings
+        delay(20);                                // delay 20 mSec
       }
 
-      noise = (noiseTotal / 5);             		  // take average reading
+      noise = (noiseTotal / 5);                   // take average reading
 
-      if (noise > 250)                     		    // evaluate average reading
+      if (noise > 250)                            // evaluate average reading
       {
         semAlarm = 0;                             // DISABLE Core 0 access to "the_alarm"
         the_alarm = 2;                            // Set alarm trip for LCD Screen: 2 = micSense trip for LCD
         accessAlarmLCD = 1;                       // allow an LCD write event for "alarm" status
         digitalWrite(buzzer, HIGH);               // Turn on the buzzer (or LED)
-        leds[0] = CRGB::Red;             		      // Red = Alarm
+        leds[0] = CRGB::Red;                      // Red = Alarm
         FastLED.show();
         semAlarm = 1;                             // ENABLE Core 0 access to "the_alarm"
       }
-      noise = 0;                             	    // reset values so they don't overflow
+      noise = 0;                                  // reset values so they don't overflow
       noiseTotal = 0;
 
       if (myKeyPress == password[position])
       {
-        position++;                        		    // if the digit matches: increase counter & move to next array index
+        position++;                               // if the digit matches: increase counter & move to next array index
       }
 
       if (position == 4)                     	    // if 4 digits were entered correctly
@@ -274,10 +274,10 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
         {
           leds[0] = CRGB::Red;
           FastLED.show();
-          delay(100);                 			      // length of beep = 100 mS
+          delay(100);                             // length of beep = 100 mS
           leds[0] = CRGB::Black;
           FastLED.show();
-          delay(200);                 			      // delay between beeps = 200 mS
+          delay(200);                             // delay between beeps = 200 mS
         }
         setLocked(false);                         // OPEN Sesame...
 
@@ -292,7 +292,7 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
         digitalWrite(buzzer, LOW);                // Turn off the buzzer (or LED)
         semAlarm = 1;                             // ENABLE Core 0 access to "the_alarm"
         
-        position = 0;                       	    // reset counter back to ZERO
+        position = 0;                             // reset counter back to ZERO
       }
 	  }
   }
@@ -300,7 +300,7 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
 
 void setLocked(int locked)                        // function declaration for setLocked function
 {
-	if (!locked)                               	    // if door is locked / closed
+	if (!locked)                                    // if door is locked / closed
   {
     leds[0] = CRGB::Green;                        // Green = Go / Open
     FastLED.show();
