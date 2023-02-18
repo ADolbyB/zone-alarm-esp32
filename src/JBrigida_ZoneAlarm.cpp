@@ -97,22 +97,22 @@ void setup()
   leds[0] = CRGB::White;                          // Power up all Pin 2 LEDs for Power On Test
   FastLED.show();
   I2C_20x4LCD_set();                              // Display Splash Screen on Power Up
-	delay(2000);                                    // 2 second power on delay
+  delay(2000);                                    // 2 second power on delay
   digitalWrite(buzzer, LOW);                      // Turn off buzzer / LED (Active High)
   lcd.clear();                                    // clear LCD Display
-
-	leds[0] = CRGB::Black;                          // Turn Off Pin 2 LEDs
+  
+  leds[0] = CRGB::Black;                          // Turn Off Pin 2 LEDs
   FastLED.show();
   
-	ESP32PWM::allocateTimer(0);                     // Allow allocation of all timers (for servo)
-	ESP32PWM::allocateTimer(1);
-	ESP32PWM::allocateTimer(2);
-	ESP32PWM::allocateTimer(3);
-	servo_obj.setPeriodHertz(50);                   // standard 50 hz servo
-	servo_obj.attach(servoPin, 1000, 2000);         // attaches the servo on pin 4 to the servo object
+  ESP32PWM::allocateTimer(0);                     // Allow allocation of all timers (for servo)
+  ESP32PWM::allocateTimer(1);
+  ESP32PWM::allocateTimer(2);
+  ESP32PWM::allocateTimer(3);
+  servo_obj.setPeriodHertz(50);                   // standard 50 hz servo
+  servo_obj.attach(servoPin, 1000, 2000);         // attaches the servo on pin 4 to the servo object
 
-	setLocked(true);                                // Lock Door Servo after power on
-	armed = 1;                                      // set armed state
+  setLocked(true);                                // Lock Door Servo after power on
+  armed = 1;                                      // set armed state
 
 
   //create a task that will be executed in the Task0code() function, with priority 1 and executed on core 0
@@ -208,10 +208,10 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
   {
     myKeyPress = the_keypad.getKey();             // retrieve key pressed by user
 
-  	if (myKeyPress == '*')                        // only keypress we care about in disarmed state is '*'
+    if (myKeyPress == '*')                        // only keypress we care about in disarmed state is '*'
   	{                                             // If the lock is open it can be relocked anytime with a '*' press
- 		  if (!armed)                                 // only beep when locking from unlocked state
-    	{
+      if (!armed)                                 // only beep when locking from unlocked state
+      {
         leds[0] = CRGB::Red;
         FastLED.show();
         delay(100);                               // length of beep = 100 mS
@@ -219,13 +219,13 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
         FastLED.show();
         delay(200);
         setLocked(true);                          // move servo to 0 = LOCKED
-    	}
+      }
       position = 0;                               // reset password counter
       semArmed = 0;                               // DISABLE Core 0 access to "armed"
       armed = 1;                                  // set armed state
       accessArmLCD = 1;                           // allow an LCD write event for "armed" status
       semArmed = 1;                               // ENABLE Core 0 access to "armed"
-	  }
+    }
 
     if (armed)
 	  {
@@ -268,7 +268,7 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
         position++;                               // if the digit matches: increase counter & move to next array index
       }
 
-      if (position == 4)                     	    // if 4 digits were entered correctly
+      if (position == 4)                          // if 4 digits were entered correctly
       {
         for (int i = 0; i < 2; i++)
         {
@@ -300,7 +300,7 @@ void Task1code(void *pvParameters)                // CPU Core 1 controls Alarm F
 
 void setLocked(int locked)                        // function declaration for setLocked function
 {
-	if (!locked)                                    // if door is locked / closed
+  if (!locked)                                    // if door is locked / closed
   {
     leds[0] = CRGB::Green;                        // Green = Go / Open
     FastLED.show();
