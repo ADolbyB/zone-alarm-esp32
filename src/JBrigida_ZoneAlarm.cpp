@@ -216,10 +216,10 @@ void Task1code(void *pvParameters)                          // CPU Core 1 contro
             {
                 leds[0] = CRGB::Red;
                 FastLED.show();
-                delay(100);                                 // length of beep = 100 mS
+                vTaskDelay(100 / portTICK_PERIOD_MS);       // length of beep = 100 mS
                 leds[0] = CRGB::Black;
                 FastLED.show();
-                delay(200);
+                vTaskDelay(200 / portTICK_PERIOD_MS);
                 setLocked(true);                            // move servo to 0 = LOCKED
             }
             position = 0;                                   // reset password counter
@@ -247,7 +247,7 @@ void Task1code(void *pvParameters)                          // CPU Core 1 contro
             for (int i = 0; i < 5; i++)
             {
                 noiseTotal += analogRead(micSense);         // add up 5 total readings
-                delay(20);                                  // delay 20 mSec
+                vTaskDelay(20 / portTICK_PERIOD_MS);        // delay 20 mSec
             }
 
             noise = (noiseTotal / 5);                       // take average reading
@@ -276,10 +276,10 @@ void Task1code(void *pvParameters)                          // CPU Core 1 contro
                 {
                     leds[0] = CRGB::Red;
                     FastLED.show();
-                    delay(100);                             // length of beep = 100 mS
+                    vTaskDelay(100 / portTICK_PERIOD_MS);   // length of beep = 100 mS
                     leds[0] = CRGB::Black;
                     FastLED.show();
-                    delay(200);                             // delay between beeps = 200 mS
+                    vTaskDelay(200 / portTICK_PERIOD_MS);   // delay between beeps = 200 mS
                 }
                 setLocked(false);                           // OPEN Sesame...
 
@@ -370,10 +370,10 @@ void printTimeScrn()
 void I2C_20x4LCD_set()
 {
     lcd.init();                                             // initialize the lcd 
-    // Print a message to the LCD.
+
     lcd.backlight();
     lcd.setCursor(0, 0);                                    // setCursor(Character #, Line #)
-    lcd.print("    Joel Brigida    ");
+    lcd.print("    Joel Brigida    ");                      // Print a PowerUp message to the LCD.
     lcd.setCursor(0, 1);
     lcd.print("   ESP32 Security   ");
     lcd.setCursor(0, 2);
