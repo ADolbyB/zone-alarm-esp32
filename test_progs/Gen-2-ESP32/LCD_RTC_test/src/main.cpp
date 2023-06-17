@@ -2,7 +2,8 @@
  * Joel Brigida
  * CDA-4630: Embedded Systems
  * ZoneAlarm Test using ESP32, VSCode, and PlatformIO Extension
- * This is a test sketch to initialize and test the RTC with the RTC
+ * This is a test sketch to initialize and test the RTC with the ESP32
+ * Using a keypad input, PIR sensor.sas
 */
 
 #include <Arduino.h>
@@ -77,13 +78,13 @@ void printTimeScrn()
    lcd.print(String(rtc.second()));                // Print second
 
    if (rtc.is12Hour())                             // If we're in 12-hour mode
-      {
-         // Use rtc.pm() to read the AM/PM state of the hour
-         if (rtc.pm()) 
-            lcd.print(" PM");                      // Returns true if PM
-         else 
-            lcd.print(" AM");
-      }
+   {
+      // Use rtc.pm() to read the AM/PM state of the hour
+      if (rtc.pm()) 
+         lcd.print(" PM");                      // Returns true if PM
+      else w
+         lcd.print(" AM");
+   }
   
    //lcd.print(" | ");
    // lcd.setCursor(0, 3);
@@ -117,7 +118,7 @@ void printTimeScrn()
    lcd.setCursor(0, 3);
    lcd.print("Sensor 3:           ");
    lcd.setCursor(11, 3);
-   lcd.print(count3);
+   lcd.print(count3);QWqwqwwqWQ
    count3 += 3;
    if (count3 > 254)
       count3 = 0;
