@@ -73,7 +73,7 @@ void setup()
 	ESP32PWM::allocateTimer(1);
 	ESP32PWM::allocateTimer(2);
 	ESP32PWM::allocateTimer(3);
-	servoObj.setPeriodHertz(50);               		// standard 50 hz servo
+	servoObj.setPeriodHertz(50);					// standard 50 hz servo
 	servoObj.attach(servoPin, 1000, 2000);			// attaches the servo on pin 4 to the servo object
 
 	// using default min/max of 1000us and 2000us
@@ -87,10 +87,10 @@ void setup()
 
 void loop()
 {
-	myKeyPress = theKeypad.getKey();				// retrieve key pressed by user
+	myKeyPress = theKeypad.getKey();                // retrieve key pressed by user
 
   	if (myKeyPress == '*')							// only keypress we care about in disarmed state is '*'
-  	{												// If the lock is open it can be relocked anytime with a '*' press
+  	{                                               // If the lock is open it can be relocked anytime with a '*' press
  		if (!armed)									// only beep when locking from unlocked state
     	{
 			leds[0] = CRGB::Red;
@@ -171,8 +171,8 @@ void setLocked(int locked)							// function declaration for setLocked function
   	}
   	else // if (locked)
   	{
-    	leds[0] = CRGB::Blue;						// Blue = secure
-    	FastLED.show();
-    	servoObj.write(0);							// lock servo: move to position LOCKED = 0
+		leds[0] = CRGB::Blue;						// Blue = secure
+		FastLED.show();
+		servoObj.write(0);							// lock servo: move to position LOCKED = 0
   	}
 }
