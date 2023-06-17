@@ -1,5 +1,7 @@
 /**
- * Joel Brigida: Embedded Systems Alarm Project
+ * Joel Brigida
+ * CDA 4630: Embedded Systems
+ * Alarm Project v1.2
  * This file combines 2 files:
  * File 1: "Test_Analog_Inputs_2.cpp": PIR motion (digital) and Noise Sensor (analog)
  * File 2: "ZoneAlarm_v11.cpp": Keypad input, Servo Output and Lock / Unlock LEDs.
@@ -85,7 +87,6 @@ void setup()
 
 void loop()
 {
-
     myKeyPress = the_keypad.getKey();                   // retrieve key pressed by user
 
     if (armed)
@@ -165,7 +166,6 @@ void loop()
 
         position = 0;                                   // reset password counter
     }
-
 }
 
 void setLocked(int locked)                              // function definition for setLocked function
