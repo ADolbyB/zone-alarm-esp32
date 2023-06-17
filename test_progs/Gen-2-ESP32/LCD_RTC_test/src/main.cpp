@@ -81,7 +81,7 @@ void printTimeScrn()
    {
       // Use rtc.pm() to read the AM/PM state of the hour
       if (rtc.pm()) 
-         lcd.print(" PM");                      // Returns true if PM
+         lcd.print(" PM");                         // Returns true if PM
       else w
          lcd.print(" AM");
    }
