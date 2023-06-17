@@ -45,7 +45,7 @@ const char buttons[ROWS][COLS] = {                  // declare keypad button as 
 
 Servo servoObj;                                     // 16 servo objects can be created on the ESP32
 Keypad theKeypad = Keypad(
-makeKeymap(buttons),
+    makeKeymap(buttons),
     rowPins,
     colPins,
     ROWS,
